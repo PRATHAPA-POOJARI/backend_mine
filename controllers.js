@@ -1,17 +1,14 @@
-// controllers.js
-const mongoose = require('mongoose');
 
+const mongoose = require('mongoose');
 // Authenticate User
 const authenticateUser = (email, password) => {
-  // Your logic for authenticating user
-  // Return true if authenticated, otherwise false
+
 };
 // Get All Databases
-const getAllDatabases = async (req, res) => {
+module.exports.getAllDatabases = async (req, res) => {
   try {
     const admin = mongoose.connection.db.admin();
     const databases = await admin.listDatabases();
-
     // Define prefixes to exclude
     const excludedPrefixes = ['WSESS', 'WSESP'];
     const filteredDatabases = databases.databases
@@ -24,8 +21,9 @@ const getAllDatabases = async (req, res) => {
     res.status(500).json({ message: 'Error fetching databases' });
   }
 };
+
 // Get All Collections in a Specific Database
-const getCollections = async (req, res) => {
+module.exports.getCollections = async (req, res) => {
   const { databaseName } = req.params;
   try {
     const database = mongoose.connection.useDb(databaseName);
@@ -36,8 +34,9 @@ const getCollections = async (req, res) => {
     res.status(500).json({ message: 'Error fetching collections' });
   }
 };
+
 // Get All Documents in a Specific Collection of a Database
-const getDocuments = async (req, res) => {
+ module.exports.getDocuments = async (req, res) => {
   const { databaseName, collectionName } = req.params;
   try {
     const database = mongoose.connection.useDb(databaseName);
@@ -50,7 +49,7 @@ const getDocuments = async (req, res) => {
   }
 };
 // Update a Document by ID
-const updateDocument = async (req, res) => {
+module.exports.updateDocument = async (req, res) => {
     const { databaseName, collectionName, id } = req.params;
     const updateData = req.body;
     try {
@@ -82,9 +81,8 @@ const updateDocument = async (req, res) => {
     }
   };
   
-
 // Delete a Document by ID
-const deleteDocument = async (req, res) => {
+module.exports.deleteDocument = async (req, res) => {
     const { databaseName, collectionName, id } = req.params;
     console.log('Attempting to delete document with ID:', id); // Debugging
     try {
@@ -92,7 +90,6 @@ const deleteDocument = async (req, res) => {
       const collection = database.collection(collectionName);
       const result = await collection.deleteOne({ _id: new mongoose.Types.ObjectId(id) });
       console.log('Delete result:', result); // Debugging
-  
       if (result.deletedCount === 1) {
         res.status(200).json({ message: 'Document deleted successfully' });
       } else {
@@ -104,11 +101,3 @@ const deleteDocument = async (req, res) => {
     }
   };
   
-module.exports = {
-  authenticateUser,
-  getAllDatabases,
-  getCollections,
-  getDocuments,
-  updateDocument,
-  deleteDocument,
-};

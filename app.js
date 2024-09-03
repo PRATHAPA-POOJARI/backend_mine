@@ -1,9 +1,9 @@
 // server.js
 const express = require('express');
 const cors = require('cors');
-const connectDB = require('./db'); // Import the DB connection function
-const routes = require('./routes'); // Import the routes
-const { authenticateUser } = require('./users'); // Import authenticateUser function from users.js
+const connectDB = require('./db'); 
+const routes = require('./routes');
+const { authenticateUser } = require('./users'); 
 
 const app = express();
 const PORT = 5000;
@@ -17,9 +17,8 @@ connectDB();
 
 // Login endpoint
 app.post('/api/login', (req, res) => {
-  const { username, password } = req.body;  // Use username and password
+  const { username, password } = req.body; 
 
-  // Use the authenticateUser function to check if the user exists
   const isAuthenticated = authenticateUser(username, password);
 
   if (isAuthenticated) {
@@ -29,7 +28,7 @@ app.post('/api/login', (req, res) => {
   }
 });
 
-// Use Routes
+
 app.use('/api', routes);
 
 
