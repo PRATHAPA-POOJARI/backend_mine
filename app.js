@@ -32,7 +32,7 @@ app.post('/api/login', (req, res) => {
 // Use Routes
 app.use('/api', routes);
 
-// Start the server
+
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
 });
